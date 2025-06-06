@@ -41,7 +41,7 @@ const SignInView = () => {
 
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {
     setError(null);
-    setPending(true)
+    setPending(true);
     await authClient.signIn.email(
       {
         email: data.email,
@@ -54,17 +54,16 @@ const SignInView = () => {
         onSuccess: (ctx) => {
           //redirect to the dashboard or sign in page
           router.push("/");
-          setPending(false)
+          setPending(false);
         },
         onError: (ctx) => {
           // display the error message
           // alert(ctx.error.message);
           setError(ctx.error.message);
-          setPending(false)
+          setPending(false);
         },
       }
     );
-    
   };
   return (
     <div className="flex flex-col gap-6">
@@ -154,6 +153,29 @@ const SignInView = () => {
                     type="button"
                     className="w-full"
                     disabled={pending}
+                    onClick={async () => {
+                      await authClient.signIn.social(
+                        {
+                          provider: "google",
+                        },
+                        {
+                          onRequest: (ctx) => {
+                            //show loading
+                          },
+                          onSuccess: (ctx) => {
+                            //redirect to the dashboard or sign in page
+                            router.push("/");
+                            setPending(false);
+                          },
+                          onError: (ctx) => {
+                            // display the error message
+                            // alert(ctx.error.message);
+                            setError(ctx.error.message);
+                            setPending(false);
+                          },
+                        }
+                      );
+                    }}
                   >
                     Google
                   </Button>
@@ -162,6 +184,29 @@ const SignInView = () => {
                     type="button"
                     className="w-full"
                     disabled={pending}
+                    onClick={async () => {
+                      await authClient.signIn.social(
+                        {
+                          provider: "github",
+                        },
+                        {
+                          onRequest: (ctx) => {
+                            //show loading
+                          },
+                          onSuccess: (ctx) => {
+                            //redirect to the dashboard or sign in page
+                            router.push("/");
+                            setPending(false);
+                          },
+                          onError: (ctx) => {
+                            // display the error message
+                            // alert(ctx.error.message);
+                            setError(ctx.error.message);
+                            setPending(false);
+                          },
+                        }
+                      );
+                    }}
                   >
                     Github
                   </Button>
@@ -181,7 +226,7 @@ const SignInView = () => {
             </form>
           </Form>
 
-          <div className="bg-radial from-green-700 to-green-900 relative hidden md:flex flex-col gap-y-4 items-center justify-center px-10">
+          <div className="bg-radial from-sidebar to-sidebar-accent relative hidden md:flex flex-col gap-y-4 items-center justify-center px-10">
             <img src="/logo.svg" alt="Image" className=" " />
           </div>
         </CardContent>
