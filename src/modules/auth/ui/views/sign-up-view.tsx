@@ -21,17 +21,19 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
-const formSchema = z.object({
-  email: z.string().email({
-    message: "Email is required",
-  }),
-  password: z.string().min(1, { message: "Password is Required" }),
-  name: z.string().min(1, { message: "Name is Required" }),
-  confirmpassword: z.string().min(1, { message: "Password is Required" }),
-}).refine((data)=>data.confirmpassword===data.password,{
-  message:"Passwords don't match",
-  path:["confirmpassword"]
-})
+const formSchema = z
+  .object({
+    email: z.string().email({
+      message: "Email is required",
+    }),
+    password: z.string().min(1, { message: "Password is Required" }),
+    name: z.string().min(1, { message: "Name is Required" }),
+    confirmpassword: z.string().min(1, { message: "Password is Required" }),
+  })
+  .refine((data) => data.confirmpassword === data.password, {
+    message: "Passwords don't match",
+    path: ["confirmpassword"],
+  });
 const SignUpView = () => {
   const router = useRouter();
   const [error, setError] = useState<null | any>(null);
@@ -41,8 +43,8 @@ const SignUpView = () => {
     defaultValues: {
       email: "",
       password: "",
-      name:"",
-      confirmpassword:""
+      name: "",
+      confirmpassword: "",
     },
   });
 
@@ -51,7 +53,7 @@ const SignUpView = () => {
     setPending(true);
     await authClient.signUp.email(
       {
-        name:data.name,
+        name: data.name,
         email: data.email,
         password: data.password,
       },
@@ -100,11 +102,7 @@ const SignUpView = () => {
                       <FormItem>
                         <FormLabel>Name</FormLabel>
                         <FormControl>
-                          <Input
-                            type="text"
-                            placeholder="Mr.X"
-                            {...field}
-                          />
+                          <Input type="text" placeholder="Mr.X" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -199,6 +197,29 @@ const SignUpView = () => {
                     type="button"
                     className="w-full"
                     disabled={pending}
+                    onClick={async () => {
+                      await authClient.signIn.social(
+                        {
+                          provider: "google",
+                        },
+                        {
+                          onRequest: (ctx) => {
+                            //show loading
+                          },
+                          onSuccess: (ctx) => {
+                            //redirect to the dashboard or sign in page
+                            router.push("/");
+                            setPending(false);
+                          },
+                          onError: (ctx) => {
+                            // display the error message
+                            // alert(ctx.error.message);
+                            setError(ctx.error.message);
+                            setPending(false);
+                          },
+                        }
+                      );
+                    }}
                   >
                     Google
                   </Button>
@@ -207,6 +228,29 @@ const SignUpView = () => {
                     type="button"
                     className="w-full"
                     disabled={pending}
+                    onClick={async () => {
+                      await authClient.signIn.social(
+                        {
+                          provider: "github",
+                        },
+                        {
+                          onRequest: (ctx) => {
+                            //show loading
+                          },
+                          onSuccess: (ctx) => {
+                            //redirect to the dashboard or sign in page
+                            router.push("/");
+                            setPending(false);
+                          },
+                          onError: (ctx) => {
+                            // display the error message
+                            // alert(ctx.error.message);
+                            setError(ctx.error.message);
+                            setPending(false);
+                          },
+                        }
+                      );
+                    }}
                   >
                     Github
                   </Button>
