@@ -13,7 +13,7 @@ const AgentsView = () => {
   return (
     <div>
       <ResponsiveDialog
-        open
+        open={false}
         title="Responsive Test"
         description="Responsive Descriptiom"
         onOpenChange={() => {}}
