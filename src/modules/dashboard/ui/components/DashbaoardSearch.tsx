@@ -9,6 +9,7 @@ import {
   CommandList,
   CommandSeparator,
   CommandShortcut,
+  ResponsiveCommandDialog,
 } from "@/components/ui/command";
 interface DashbaoardSearchProps {
   open: boolean;
@@ -16,7 +17,7 @@ interface DashbaoardSearchProps {
 }
 const DashbaoardSearch = ({ open, setOpen }: DashbaoardSearchProps) => {
   return (
-    <CommandDialog open={open} onOpenChange={setOpen}>
+    <ResponsiveCommandDialog open={open} onOpenChange={setOpen}>
       <CommandInput placeholder="Type a command or search..." />
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
@@ -32,7 +33,7 @@ const DashbaoardSearch = ({ open, setOpen }: DashbaoardSearchProps) => {
           <CommandItem>Settings</CommandItem>
         </CommandGroup>
       </CommandList>
-    </CommandDialog>
+    </ResponsiveCommandDialog>
   );
 };
 
