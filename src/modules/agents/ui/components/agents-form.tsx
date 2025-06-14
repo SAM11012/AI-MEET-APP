@@ -32,7 +32,7 @@ const AgentsForm = ({ initialValues, onCancel, onSuccess }: AgentFormProps) => {
   const createAgents = useMutation(
     trpc.agents.create.mutationOptions({
       onSuccess: async () => {
-        await queryClient.invalidateQueries(trpc.agents.agents.queryOptions());
+        await queryClient.invalidateQueries(trpc.agents.agents.queryOptions({}));
         if (initialValues?.id) {
           queryClient.invalidateQueries(
             await trpc.agents.getOneAgent.queryOptions({ id: initialValues.id })
